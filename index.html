@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Helston D'Souza | Performance Marketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['"Space Grotesk"','sans-serif']}}}}</script>
+    <style>
+    :root{--bg:#F5F3EE;--ink:#111111;--blue:#1D4ED8;--yellow:#FACC15;--red:#EF4444;--green:#10B981;--white:#FFFFFF;}
+    *,*::before,*::after{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    @media(hover:hover)and(pointer:fine){body{cursor:none;}#cursor{display:block;}}
+    ::selection{background:var(--yellow);color:#000;}
+    #cursor{display:none;position:fixed;width:14px;height:14px;background:#000;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference;will-change:transform;}
+    #cursor.big{width:46px;height:46px;background:var(--yellow);}
+    #scroll-bar{position:fixed;top:0;left:0;height:4px;background:var(--yellow);width:0%;z-index:9999;transition:width .1s linear;border-right:3px solid #000;}
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.from-left{transform:translateX(-50px);}
+    .reveal.from-right{transform:translateX(50px);}
+    .reveal.visible{opacity:1!important;transform:translate(0,0)!important;}
+    .reveal.d1{transition-delay:.1s;}.reveal.d2{transition-delay:.2s;}.reveal.d3{transition-delay:.3s;}.reveal.d4{transition-delay:.4s;}
+    .hw{display:inline-block;opacity:0;transform:translateY(56px);animation:wordIn .7s cubic-bezier(.22,1,.36,1) forwards;}
+    @keyframes wordIn{to{opacity:1;transform:translateY(0);}}
+    .mq-outer{overflow:hidden;white-space:nowrap;}
+    .mq-track{display:inline-flex;animation:mq 22s linear infinite;}
+    .mq-track:hover{animation-play-state:paused;}
+    @keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    .mq-item{display:inline-flex;align-items:center;gap:14px;padding:0 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;}
+    .mq-dot{width:7px;height:7px;border-radius:50%;background:var(--yellow);flex-shrink:0;}
+    .sec-lbl{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#888;margin-bottom:12px;}
+    .sec-lbl::before{content:'';display:block;width:22px;height:2px;background:#999;}
+    .stat-track{height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:8px;overflow:hidden;}
+    .stat-fill{height:100%;background:#fff;width:0;border-radius:2px;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+    .ghost-num{font-size:clamp(56px,10vw,88px);font-weight:900;line-height:1;opacity:.045;position:absolute;bottom:8px;right:14px;pointer-events:none;user-select:none;font-family:'Space Grotesk',sans-serif;}
+    @media(hover:hover){
+      .hover-lift{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;}
+      .hover-lift:hover{transform:translateY(-6px);box-shadow:12px 12px 0 #000!important;}
+      .cert-badge{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;}
+      .cert-badge:hover{transform:translateY(-4px);box-shadow:7px 7px 0 #000!important;}
+      .funnel-card:hover{transform:translateY(-5px);box-shadow:10px 10px 0 #000!important;}
+      .insight-row:hover{transform:translateX(5px);box-shadow:8px 8px 0 #000!important;}
+    }
+    .funnel-card{transition:transform .25s ease,box-shadow .25s ease;}
+    .insight-row{transition:transform .2s ease,box-shadow .2s ease;}
+    .btn-pulse{position:relative;}
+    .btn-pulse::after{content:'';position:absolute;inset:-6px;border:2px solid #fff;border-radius:8px;opacity:0;animation:bpulse 2.6s ease infinite;}
+    @keyframes bpulse{0%{opacity:0;transform:scale(.95);}40%{opacity:.5;}100%{opacity:0;transform:scale(1.1);}}
+    #exp-scroll::-webkit-scrollbar{display:none;}
+    #exp-scroll{scrollbar-width:none;cursor:grab;}
+    #exp-scroll:active{cursor:grabbing;}
+    @media(hover:hover){.exp-card:hover{outline:4px solid #000;outline-offset:2px;}}
+    @keyframes float{0%,100%{transform:translateY(0) rotate(45deg)}50%{transform:translateY(-12px) rotate(45deg)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.7)}}
+    @keyframes fFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-14px)}}
+    @keyframes fSpin{to{transform:rotate(360deg)}}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:#000;border-radius:3px;}
+    #mobile-menu{display:none;position:fixed;inset:0;background:#111;z-index:9998;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;}
+    #mobile-menu.open{display:flex;}
+    #mobile-menu a{color:#fff;font-weight:900;font-size:clamp(22px,6vw,32px);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;width:100%;text-align:center;padding:16px 24px;border-bottom:2px solid #222;transition:background .15s,color .15s;}
+    #mobile-menu a:first-of-type{border-top:2px solid #222;margin-top:60px;}
+    #mobile-menu a:active,#mobile-menu a:focus{background:var(--yellow);color:#000;}
+    #menu-close{position:absolute;top:16px;right:16px;background:var(--yellow);border:3px solid #000;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;cursor:pointer;border-radius:4px;box-shadow:3px 3px 0 #000;z-index:10;}
+    </style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="scroll-bar"></div>
+<div id="mobile-menu">
+  <div id="menu-close" onclick="document.getElementById('mobile-menu').classList.remove('open')">&#10005;</div>
+  <a href="#hero"     onclick="document.getElementById('mobile-menu').classList.remove('open')">Home</a>
+  <a href="#services" onclick="document.getElementById('mobile-menu').classList.remove('open')">Services</a>
+  <a href="#process"  onclick="document.getElementById('mobile-menu').classList.remove('open')">Process</a>
+  <a href="#proof"    onclick="document.getElementById('mobile-menu').classList.remove('open')">Proof</a>
+  <a href="#insights" onclick="document.getElementById('mobile-menu').classList.remove('open')">Insights</a>
+  <a href="articles/index.html">Articles</a>
+  <a href="#whyme"    onclick="document.getElementById('mobile-menu').classList.remove('open')">Why Me</a>
+  <a href="#contact"  onclick="document.getElementById('mobile-menu').classList.remove('open')">Contact</a>
+</div>
+<div id="root"></div>
+<script type="text/babel">
+const{useEffect}=React;
+const ArrowUpRight=({size=24,sw=3})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth={sw}strokeLinecap="round"strokeLinejoin="round"><line x1="7"y1="17"x2="17"y2="7"/><polyline points="7 7 17 7 17 17"/></svg>);
+const ArrowRight=({size=20})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><line x1="5"y1="12"x2="19"y2="12"/><polyline points="12 5 19 12 12 19"/></svg>);
+const CheckSq=({size=18})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>);
+const TargetIco=({size=28})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><circle cx="12"cy="12"r="10"/><circle cx="12"cy="12"r="6"/><circle cx="12"cy="12"r="2"/></svg>);
+const ZapIco=({size=28})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>);
+const BarIco=({size=28})=>(<svg width={size}height={size}viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><line x1="18"y1="20"x2="18"y2="10"/><line x1="12"y1="20"x2="12"y2="4"/><line x1="6"y1="20"x2="6"y2="14"/></svg>);
+
+function useReveal(){
+  useEffect(()=>{
+    const els=document.querySelectorAll('.reveal');
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');e.target.querySelectorAll('.stat-fill').forEach(f=>{f.style.width=f.dataset.w+'%';});}});},{threshold:0.08});
+    els.forEach(el=>obs.observe(el));
+    return()=>obs.disconnect();
+  },[]);
+}
+
+const services=[
+  {icon:<TargetIco/>,iconBg:'#FACC15',iconText:'#000',num:'01',title:'Paid Growth Systems',items:['Meta & Google Ads Architecture','Audience & Intent Mapping','Rapid Creative Testing Framework']},
+  {icon:<ZapIco/>,iconBg:'#EF4444',iconText:'#fff',num:'02',title:'Funnel & CRO',items:['Landing Page Optimization','Frictionless Checkout Flows','A/B Testing & Heatmapping']},
+  {icon:<BarIco/>,iconBg:'#1D4ED8',iconText:'#fff',num:'03',title:'Analytics & Scale',items:['Attribution Modeling','LTV : CAC Optimization','Custom Dashboards & Reporting']},
+];
+const funnelSteps=[
+  {stage:'TOF',label:'Awareness',bg:'#1D4ED8',text:'#fff',desc:'Cold audience discovery. Broad creative testing. Video, UGC, and scroll-stop hooks designed to earn attention at scale.',kpi:'CPM · CTR · Thumb-Stop Rate'},
+  {stage:'MOF',label:'Consideration',bg:'#FACC15',text:'#000',desc:'Retargeting engaged visitors. VSL landing pages. Offer clarity and trust-building to move warm audiences toward intent.',kpi:'CPC · Landing Page CVR · Add-to-Cart'},
+  {stage:'BOF',label:'Conversion',bg:'#EF4444',text:'#fff',desc:'Dynamic product ads, cart abandonment flows, and purchase-intent audiences. Every rupee here must convert.',kpi:'ROAS · CPA · Revenue · MER'},
+];
+const insights=[
+  {tag:'Meta',tagColor:'#1D4ED8',title:'Why broad audiences beat interest stacking in 2024',stat:'+34% lower CPA',url:'articles/broad-audiences-vs-interest-stacking.html'},
+  {tag:'Google',tagColor:'#EF4444',title:'PMax vs Search: when each wins and when to kill losers fast',stat:'2.1× higher conv.',url:'articles/pmax-vs-search.html'},
+  {tag:'CRO',tagColor:'#EF4444',title:'The one-page audit that found ₹40L in leaking revenue',stat:'-28% drop-off',url:'articles/one-page-revenue-audit.html'},
+  {tag:'Creative',tagColor:'#10B981',title:'UGC scripts that outperform polished brand videos every time',stat:'3× CTR uplift',url:'articles/ugc-scripts-vs-polished-videos.html'},
+  {tag:'Meta',tagColor:'#1D4ED8',title:'The 5-creative testing framework that cut CPA in half',stat:'-50% CPA',url:'articles/meta-creative-testing-framework.html'},
+  {tag:'D2C',tagColor:'#FACC15',title:'How I hit 4–6× ROAS for D2C brands without increasing budget',stat:'4–6× ROAS achieved',url:'articles/d2c-roas-scaling-playbook.html'},
+  {tag:'Strategy',tagColor:'#111',title:'How I allocate ₹20 Cr across channels without wasting a rupee',stat:'₹20 Cr+ managed',url:'articles/budget-allocation-strategy.html'},
+  {tag:'CRO',tagColor:'#EF4444',title:'The D2C checkout optimisation that added 18% revenue in 30 days',stat:'+18% revenue',url:'articles/checkout-optimisation-d2c.html'},
+  {tag:'B2B',tagColor:'#1D4ED8',title:'B2B lead gen on LinkedIn: building pipelines for distributors & wholesalers',stat:'200+ leads · 18% close',url:'articles/b2b-lead-gen-linkedin.html'},
+  {tag:'SEO',tagColor:'#10B981',title:'How SEO across 7 platforms added free revenue to our D2C brand',stat:'3.2× organic impressions',url:'articles/seo-ecommerce-platforms.html'},
+  {tag:'CRM',tagColor:'#111',title:'How CRM pipeline management doubled our lead conversion rate',stat:'2× conversion rate',url:'articles/crm-pipeline-management.html'},
+  {tag:'Retention',tagColor:'#10B981',title:'Retention playbook: how WebEngage & Mailchimp reduced churn by 35%',stat:'-35% churn',url:'articles/retention-webengage-mailchimp.html'},
+  {tag:'Analytics',tagColor:'#EF4444',title:'GA4 attribution: why your conversion data is lying to you',stat:'50% data recovered',url:'articles/ga4-attribution-for-performance-marketers.html'},
+  {tag:'Influencer',tagColor:'#10B981',title:"3 influencer marketing mistakes that are killing your D2C brand's ROI",stat:'2.8× ROAS from UGC',url:'articles/influencer-marketing-d2c-mistakes.html'},
+];
+const certs=[
+  {name:'Meta Analytics',color:'#1D4ED8',url:'https://www.credential.net/f434fd6e-ee76-46d9-ad79-2d0edf63a570#acc.GH3enOhN'},
+  {name:'Digital Strategies',color:'#EF4444',url:'https://www.coursera.org/account/accomplishments/verify/LTWAQH6C4BAW'},
+  {name:'Full Stack Digital Mktg',color:'#FACC15',url:'https://certificate.givemycertificate.com/c/d66b3424-387c-4ad6-87fe-428dc4e0e78a'},
+  {name:'PG Diploma — Marketing',color:'#10B981',url:'https://www.credential.net/f434fd6e-ee76-46d9-ad79-2d0edf63a570#acc.ROKSNBhT'},
+];
+const marqueeItems=['Meta Ads','Google Ads','ROAS Scaling','CRO','LinkedIn Ads','D2C Growth','B2B Lead Gen','GA4 Analytics','Creative Strategy','Performance Marketing'];
+
+function Portfolio(){
+  useReveal();
+  useEffect(()=>{
+    setTimeout(()=>{document.querySelectorAll('.stat-fill').forEach(f=>{f.style.width=f.dataset.w+'%';});},700);
+    function updateNavH(){const h=document.getElementById('main-nav');if(h)document.documentElement.style.setProperty('--nav-h',h.offsetHeight+'px');}
+    updateNavH();
+    window.addEventListener('resize',updateNavH);
+    return()=>window.removeEventListener('resize',updateNavH);
+  },[]);
+
+  const liStyle={display:'flex',gap:'8px',fontSize:'13px',fontWeight:600,lineHeight:1.5};
+  const pillStyle=(bg,color)=>({background:bg,color,border:'2px solid #000',padding:'3px 8px',fontSize:'10px',fontWeight:700,textTransform:'uppercase',letterSpacing:'.06em',borderRadius:'3px'});
+
+  return(
+    <div className="min-h-screen bg-[#F5F3EE] text-[#111111] font-sans">
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.35]" style={{backgroundImage:'linear-gradient(to right,#00000012 1px,transparent 1px),linear-gradient(to bottom,#00000012 1px,transparent 1px)',backgroundSize:'4rem 4rem'}}/>
+
+      {/* HEADER */}
+      <header id="main-nav" className="sticky top-0 z-20">
+        {/* Ribbon */}
+        <div style={{background:'#111',borderBottom:'3px solid #000'}}>
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between" style={{height:'36px'}}>
+            <div className="hidden md:flex items-center">
+              {[{label:'Hero',href:'#hero',color:'#FACC15'},{label:'Services',href:'#services',color:'#1D4ED8'},{label:'Process',href:'#process',color:'#10B981'},{label:'Proof',href:'#proof',color:'#EF4444'},{label:'Insights',href:'#insights',color:'#FACC15'},{label:'Articles',href:'articles/index.html',color:'#10B981'},{label:'Why Me',href:'#whyme',color:'#1D4ED8'},{label:'Contact',href:'#contact',color:'#EF4444'}].map((s,i,arr)=>(
+                <a key={s.label} href={s.href} className="font-bold uppercase text-white transition-all" style={{fontSize:'10px',letterSpacing:'.15em',padding:'0 12px',height:'36px',display:'flex',alignItems:'center',borderRight:i<arr.length-1?'2px solid #333':'none'}} onMouseEnter={e=>{e.currentTarget.style.background=s.color;e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='#fff';}}>{s.label}</a>
+              ))}
+            </div>
+            <div className="md:hidden flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#10B981] inline-block" style={{animation:'pdot 2s ease infinite'}}></span>
+              <span className="font-bold text-white uppercase" style={{fontSize:'9px',letterSpacing:'.14em'}}>Available for new clients</span>
+            </div>
+            <div className="flex items-center" style={{gap:'0',borderLeft:'2px solid #333'}}>
+              {[{href:'https://www.linkedin.com/in/helstondsouza/',hov:'#1D4ED8',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2"y="9"width="4"height="12"/><circle cx="4"cy="4"r="2"/></svg>},{href:'https://api.whatsapp.com/send?phone=919594729658',hov:'#10B981',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="white"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>},{href:'mailto:helstandsouza@gmail.com',hov:'#FACC15',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="none"stroke="white"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}].map((s,i,arr)=>(
+                <a key={i} href={s.href} target="_blank" className="flex items-center justify-center transition-all" style={{width:'36px',height:'36px',borderRight:i<arr.length-1?'2px solid #333':'none'}} onMouseEnter={e=>e.currentTarget.style.background=s.hov} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>{s.icon}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Main bar */}
+        <div className="bg-[#F5F3EE] transition-all duration-300" id="nav-bar" style={{borderBottom:'4px solid #000'}}>
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex justify-between items-center">
+            <div className="font-black uppercase tracking-tighter relative group" style={{fontSize:'clamp(15px,4vw,24px)',cursor:'pointer'}}>
+              Helston D'Souza
+              <span className="absolute -bottom-0.5 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-300 bg-[#FACC15]"></span>
+            </div>
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center gap-4 font-bold text-xs uppercase tracking-widest">
+              <a href="#process" className="hover:text-[#1D4ED8] transition-colors">Process</a>
+              <a href="#proof"   className="hover:text-[#1D4ED8] transition-colors">Proof</a>
+              <a href="#contact" className="hover:text-[#1D4ED8] transition-colors">Contact</a>
+              <div style={{width:'2px',height:'20px',background:'rgba(0,0,0,.15)'}}/>
+              {[{href:'https://www.linkedin.com/in/helstondsouza/',hov:'#1D4ED8',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2"y="9"width="4"height="12"/><circle cx="4"cy="4"r="2"/></svg>},{href:'https://api.whatsapp.com/send?phone=919594729658',hov:'#10B981',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>},{href:'mailto:helstandsouza@gmail.com',hov:'#FACC15',icon:<svg width="13"height="13"viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.5"strokeLinecap="round"strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}].map((s,i)=>(
+                <a key={i} href={s.href} target="_blank" className="flex items-center justify-center border-[2px] border-black hover:text-white transition-all" style={{width:'32px',height:'32px',borderRadius:'4px',background:'#fff',boxShadow:'2px 2px 0 #000',flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background=s.hov;e.currentTarget.style.borderColor=s.hov;}} onMouseLeave={e=>{e.currentTarget.style.background='#fff';e.currentTarget.style.borderColor='#000';}}>{s.icon}</a>
+              ))}
+              <div style={{width:'2px',height:'20px',background:'rgba(0,0,0,.15)'}}/>
+              <a href="mailto:helstandsouza@gmail.com" className="bg-[#FACC15] text-black border-[3px] border-black px-4 py-2 rounded-[4px] shadow-[4px_4px_0px_#000] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#000] transition-all whitespace-nowrap font-black text-xs tracking-widest uppercase">Book a Call</a>
+            </div>
+            {/* Mobile */}
+            <div className="md:hidden flex items-center gap-2">
+              <a href="mailto:helstandsouza@gmail.com" className="bg-[#FACC15] text-black border-[3px] border-black px-3 py-1.5 rounded-[4px] shadow-[3px_3px_0px_#000] font-black uppercase text-xs tracking-widest">Talk</a>
+              <button className="flex items-center justify-center border-[3px] border-black bg-white rounded-[4px] shadow-[3px_3px_0px_#000]" style={{width:'40px',height:'40px',flexShrink:0}} onClick={()=>document.getElementById('mobile-menu').classList.add('open')} aria-label="Menu">
+                <svg width="20"height="20"viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2.8"strokeLinecap="round"><line x1="3"y1="6"x2="21"y2="6"/><line x1="3"y1="12"x2="21"y2="12"/><line x1="3"y1="18"x2="21"y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="relative z-10">
+        {/* HERO */}
+        <section id="hero" className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-28 grid md:grid-cols-2 gap-8 md:gap-12 items-center relative">
+          <div style={{position:'absolute',top:'56px',right:'47%',width:'18px',height:'18px',border:'3px solid #000',transform:'rotate(45deg)',opacity:.2,animation:'float 10s ease-in-out infinite'}}/>
+          <div>
+            <div className="sec-lbl reveal" style={{fontSize:'10px'}}>Performance Marketing Specialist · Mumbai, IN</div>
+            <div className="reveal inline-flex items-center gap-2 mb-4 px-3 py-1.5 bg-white border-[3px] border-[#1D4ED8] font-bold text-xs uppercase tracking-widest text-[#1D4ED8]" style={{boxShadow:'3px 3px 0 #1D4ED8',borderRadius:'3px'}}>
+              <span className="w-2 h-2 rounded-full bg-[#10B981] inline-block" style={{animation:'pdot 2s ease infinite'}}></span>
+              Available for new clients
+            </div>
+            <h1 className="font-black leading-[0.9] tracking-tighter uppercase mb-5" style={{fontSize:'clamp(42px,10vw,84px)'}}>
+              {[['Scaling','d1'],['Brands',null],['With','d2'],['Performance','d3'],['Marketing.','d4']].map(([w,d],i)=>(
+                <React.Fragment key={w}>
+                  <span className={`hw${d?' '+d:''}`} style={{animationDelay:`${i*0.1+0.05}s`}}>{w}</span>
+                  {(w==='Brands'||w==='Performance')&&<br/>}
+                  {w!=='Marketing.'&&w!=='Brands'&&w!=='Performance'&&' '}
+                </React.Fragment>
+              ))}
+            </h1>
+            <p className="reveal mb-5 text-base md:text-lg leading-relaxed" style={{color:'#444',maxWidth:'480px'}}>
+              I help D2C & B2B brands scale profitably on Meta & Google — with <strong className="text-[#111]">data, not guesswork</strong>.
+            </p>
+            <div className="reveal d1 flex flex-wrap gap-3">
+              <button className="bg-[#FACC15] text-black px-5 md:px-7 py-3.5 font-black uppercase tracking-wider border-[3px] border-black rounded-md shadow-[5px_5px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center gap-2 text-sm">Start Scaling <ArrowUpRight size={20} sw={3}/></button>
+              <a href="#proof" className="bg-white text-black px-5 md:px-7 py-3.5 font-bold uppercase tracking-wider border-[3px] border-black rounded-md shadow-[5px_5px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center gap-2 text-sm">View Proof <ArrowRight size={16}/></a>
+            </div>
+            <div className="reveal d2 flex flex-wrap gap-2 items-center mt-5 pt-4" style={{borderTop:'2px solid rgba(0,0,0,0.12)'}}>
+              <span className="font-bold text-xs uppercase tracking-widest text-gray-500">Trusted in</span>
+              {['D2C','SaaS','EdTech','Fintech'].map(b=>(<span key={b} className="font-bold text-xs uppercase px-2 py-1 bg-white border-[2px] border-black rounded-[3px]">{b}</span>))}
+            </div>
+          </div>
+          <div className="reveal from-right bg-[#10B981] border-[4px] border-black p-5 md:p-10 shadow-[10px_10px_0px_#000] rounded-md" style={{transform:'rotate(1deg)',transition:'transform .4s ease'}} onMouseEnter={e=>e.currentTarget.style.transform='rotate(0deg)'} onMouseLeave={e=>e.currentTarget.style.transform='rotate(1deg)'}>
+            <h3 className="text-xl md:text-3xl font-black uppercase mb-5 border-b-[3px] border-black pb-3">By The Numbers</h3>
+            <ul className="space-y-4">
+              {[{icon:<TargetIco size={26}/>,iconColor:'text-[#EF4444]',val:'2–5x',lbl:'ROAS Delivered',w:88},{icon:<BarIco size={26}/>,iconColor:'text-[#1D4ED8]',val:'₹Crores',lbl:'Ad Spend Managed',w:100},{icon:<ZapIco size={26}/>,iconColor:'text-[#FACC15]',val:'10+',lbl:'Industries Scaled',w:72},{icon:<TargetIco size={26}/>,iconColor:'text-[#111]',val:'42%',lbl:'Avg. CPA Reduction',w:80}].map(s=>(
+                <li key={s.lbl} className="flex items-center gap-3">
+                  <div className={`bg-white border-[3px] border-black p-1.5 shadow-[3px_3px_0px_#000] ${s.iconColor} flex-shrink-0`}>{s.icon}</div>
+                  <div className="flex-1">
+                    <div className="font-black" style={{fontSize:'clamp(24px,5vw,40px)'}}>{s.val}</div>
+                    <div className="font-bold text-sm uppercase tracking-tight">{s.lbl}</div>
+                    <div className="stat-track"><div className="stat-fill" data-w={s.w}></div></div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* MARQUEE */}
+        <div className="mq-outer py-3" style={{background:'#111111',borderTop:'4px solid #000',borderBottom:'4px solid #000'}}>
+          <div className="mq-track">{[...marqueeItems,...marqueeItems].map((item,i)=>(<div key={i} className="mq-item text-white"><span className="mq-dot"></span>{item}</div>))}</div>
+        </div>
+
+        {/* STATEMENT */}
+        <section className="reveal w-full bg-[#1D4ED8] py-10 md:py-20 px-4 text-center relative overflow-hidden" style={{borderTop:'4px solid #000',borderBottom:'4px solid #000'}}>
+          <div style={{position:'absolute',inset:0,backgroundImage:'repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(255,255,255,.04) 58px,rgba(255,255,255,.04) 59px),repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(255,255,255,.04) 58px,rgba(255,255,255,.04) 59px)',pointerEvents:'none'}}/>
+          <h2 className="text-white font-black text-center uppercase tracking-tighter leading-tight max-w-4xl mx-auto drop-shadow-[4px_4px_0px_#000] relative z-10" style={{fontSize:'clamp(20px,5vw,48px)'}}>
+            "I build revenue systems, not just ad campaigns."
+          </h2>
+        </section>
+
+        {/* SERVICES */}
+        <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-24">
+          <div className="sec-lbl reveal">What I Offer</div>
+          <h2 className="font-black tracking-tighter uppercase mb-10 inline-block border-b-[4px] border-black pb-2 reveal" style={{fontSize:'clamp(32px,8vw,72px)'}}>What I Do</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-8">
+            {services.map((s,i)=>(
+              <div key={s.num} className={`reveal d${i+1} hover-lift bg-white border-[3px] border-black rounded-md p-5 md:p-8 shadow-[8px_8px_0px_#000] relative overflow-hidden`}>
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#000_2px,transparent_2px)] bg-[size:16px_16px]"/>
+                <div className="ghost-num">{s.num}</div>
+                <div className="relative z-10">
+                  <div className="border-[3px] border-black mb-4 flex items-center justify-center shadow-[4px_4px_0px_#000]" style={{width:'48px',height:'48px',background:s.iconBg,color:s.iconText}}>{s.icon}</div>
+                  <div className="font-bold text-xs uppercase tracking-widest mb-1 text-gray-400">{s.num} /</div>
+                  <h3 className="text-xl font-black uppercase tracking-tight mb-4">{s.title}</h3>
+                  <ul className="space-y-2.5 font-bold text-sm">{s.items.map(item=>(<li key={item} className="flex gap-2 items-start"><CheckSq size={15}/>{item}</li>))}</ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FUNNEL FRAMEWORK */}
+        <section id="process" className="bg-white" style={{borderTop:'4px solid #000',borderBottom:'4px solid #000'}}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-24">
+            <div className="sec-lbl reveal">How I Think</div>
+            <h2 className="font-black tracking-tighter uppercase mb-3 inline-block border-b-[4px] border-black pb-2 reveal" style={{fontSize:'clamp(28px,7vw,72px)'}}>The Funnel Framework</h2>
+            <p className="reveal text-sm md:text-base text-gray-500 font-medium mb-8 mt-3 max-w-lg">Every campaign maps to a full-funnel architecture. Here's how I think from first impression to final conversion.</p>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-8">
+              {funnelSteps.map((step,i)=>(
+                <div key={step.stage} className={`funnel-card reveal d${i+1} border-[4px] border-black rounded-[4px] p-5 md:p-8 shadow-[8px_8px_0px_#000] relative overflow-hidden`} style={{background:step.bg,color:step.text}}>
+                  <div className="ghost-num" style={{color:step.text}}>{String(i+1).padStart(2,'0')}</div>
+                  <div className="font-bold text-xs uppercase tracking-widest mb-1" style={{opacity:.6}}>Stage {i+1}</div>
+                  <div className="font-black uppercase leading-none mb-1" style={{fontSize:'clamp(32px,7vw,56px)'}}>{step.stage}</div>
+                  <div className="font-bold text-xs uppercase tracking-widest mb-4 pb-3" style={{opacity:.7,borderBottom:`2px solid ${step.text==='#fff'?'rgba(255,255,255,.2)':'rgba(0,0,0,.15)'}`}}>{step.label}</div>
+                  <p className="font-medium text-sm leading-relaxed mb-4" style={{opacity:.9}}>{step.desc}</p>
+                  <div className="font-black text-xs uppercase tracking-widest px-2 py-1.5 inline-block rounded-[3px]" style={{background:step.text==='#fff'?'rgba(255,255,255,.15)':'rgba(0,0,0,.1)'}}>KPIs: {step.kpi}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PROOF */}
+        <section id="proof" style={{background:'#fff',borderBottom:'4px solid #000',borderTop:'4px solid #000'}}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-24">
+            <div className="sec-lbl reveal">Real Results · 3 Companies · 3 Years</div>
+            <h2 className="font-black tracking-tighter uppercase mb-4 inline-block border-b-[4px] border-black pb-2 reveal" style={{fontSize:'clamp(28px,7vw,72px)'}}>Proof, Not Promises.</h2>
+            {/* Aggregate bar */}
+            <div className="reveal grid grid-cols-2 md:grid-cols-4 gap-0 border-[4px] border-black mb-10 mt-5 shadow-[8px_8px_0px_#000]">
+              {[{val:'₹20 Cr+',lbl:'Budget Managed',bg:'#FACC15',text:'#000'},{val:'₹35 Cr+',lbl:'Revenue Generated',bg:'#111',text:'#fff'},{val:'4–6×',lbl:'Peak ROAS (D2C)',bg:'#1D4ED8',text:'#fff'},{val:'3 Yrs',lbl:'Performance Track',bg:'#EF4444',text:'#fff'}].map((s,i)=>(
+                <div key={s.lbl} className="p-4 md:p-6 relative group overflow-hidden" style={{background:s.bg,color:s.text,borderRight:i%2===0?'4px solid #000':'none',borderBottom:i<2?'4px solid #000':'none'}}>
+                  <div className="font-black leading-none mb-1 group-hover:scale-105 transition-transform" style={{fontSize:'clamp(22px,5vw,40px)'}}>{s.val}</div>
+                  <div className="font-bold text-xs uppercase tracking-widest opacity-75">{s.lbl}</div>
+                </div>
+              ))}
+            </div>
+            {/* Experience scroll */}
+            <div className="sec-lbl reveal mb-3">Work Experience · Scroll →</div>
+            <div id="exp-scroll" style={{display:'flex',gap:'18px',overflowX:'auto',paddingBottom:'14px',scrollSnapType:'x mandatory',WebkitOverflowScrolling:'touch'}}>
+              {[{bg:'#FACC15',text:'#000',num:'01',period:'Jan 2025 – Present · 1yr+',title:'Performance\nMarketing Executive',company:'TruNativ · Mumbai',badge:'Current',badgeBg:'#111',badgeText:'#fff',pills:['20–30% Revenue Uplift','Profitable ROAS'],bullets:['Scaled business revenue 20–30% by achieving profitable ROAS across Meta, Google & more.','Translated campaign metrics into creative insights — refined ad copy & brand storytelling.','Proactively monitored KPIs to stabilize performance and improve long-term delivery.','Managed multi-channel budgets, allocating to highest-performing campaigns to cut wastage.'],skills:'Facebook Ads · Sales Funnel Optimization · A/B Testing · Conversion Optimization'},{bg:'#1D4ED8',text:'#fff',num:'02',period:'May 2024 – Jan 2025 · 9 mos',title:'Digital Marketing\nSpecialist',company:'Aayush Wellness · Mumbai',badge:'4.47–5× ROAS',badgeBg:'#FACC15',badgeText:'#000',pills:['Google & Meta Ads','D2C E-Commerce'],bullets:['Delivered department-level ROAS of 4.47–5× via optimized Google Ads, Meta & PPC.','Strengthened organic brand visibility through SEO-driven strategies & social media.','Expanded e-commerce footprint across 5–7 major online platforms for consistent growth.','Spearheaded B2B lead-gen campaigns for distributors, wholesalers & super stockists.'],skills:'PPC · SEO · E-commerce Marketing · B2B Strategy · Influencer Marketing'},{bg:'#EF4444',text:'#fff',num:'03',period:'Mar 2023 – May 2024 · 1yr 3mos',title:'Digital Marketing\nExecutive',company:'Stoxboxin · Mumbai',badge:'Full-Funnel',badgeBg:'#111',badgeText:'#fff',pills:['Google & Meta','CRM + Lead Pipeline'],bullets:['Managed & optimized Google Ads and Meta campaigns, focusing on cost efficiency & lead quality.','Oversaw lead pipelines and CRM processes to improve nurturing and conversion outcomes.','Implemented retention strategies via WebEngage, Leadforce & Mailchimp — reduced churn.','Enhanced brand presence through SEO initiatives, ORM & targeted content campaigns.'],skills:'SEO · Google Analytics · Facebook Ads · KPI Reporting · MailChimp'}].map((card,idx)=>(
+                <div key={idx} className="exp-card flex-shrink-0" style={{width:'clamp(278px,82vw,460px)',scrollSnapAlign:'start',border:'4px solid #000',background:card.bg,color:card.text,boxShadow:'8px 8px 0 #000',borderRadius:'4px',padding:'clamp(16px,4vw,32px)',position:'relative',overflow:'hidden',transition:'transform .25s ease,box-shadow .25s ease'}} onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px)';e.currentTarget.style.boxShadow='12px 12px 0 #000';}} onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='8px 8px 0 #000';}}>
+                  <div style={{position:'absolute',top:'-10px',right:'-10px',fontSize:'110px',fontWeight:900,opacity:.07,lineHeight:1,fontFamily:"'Space Grotesk',sans-serif",pointerEvents:'none',color:card.text}}>{card.num}</div>
+                  <div className="relative z-10">
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'10px',marginBottom:'12px'}}>
+                      <div>
+                        <div className="font-black text-xs uppercase tracking-widest mb-1" style={{opacity:.5}}>{card.period}</div>
+                        <h3 className="font-black uppercase leading-tight tracking-tighter" style={{fontSize:'clamp(16px,3.5vw,24px)'}}>{card.title.split('\n').map((l,i)=><React.Fragment key={i}>{l}{i===0&&<br/>}</React.Fragment>)}</h3>
+                        <div className="font-bold text-xs uppercase tracking-wide mt-1" style={{opacity:.65}}>{card.company}</div>
+                      </div>
+                      <div style={{background:card.badgeBg,color:card.badgeText,padding:'4px 9px',border:`3px solid ${card.text==='#fff'?'rgba(255,255,255,.3)':'#000'}`,fontSize:'10px',fontWeight:900,textTransform:'uppercase',letterSpacing:'.08em',flexShrink:0,borderRadius:'3px',boxShadow:'3px 3px 0 rgba(0,0,0,.3)'}}>{card.badge}</div>
+                    </div>
+                    <div style={{display:'flex',flexWrap:'wrap',gap:'6px',marginBottom:'12px'}}>
+                      {card.pills.map(t=>(<span key={t} style={pillStyle(card.text==='#fff'?'rgba(255,255,255,.15)':' #fff',card.text==='#fff'?'#fff':'#000')}>{t}</span>))}
+                    </div>
+                    <ul style={{display:'flex',flexDirection:'column',gap:'7px',borderTop:`2px solid ${card.text==='#fff'?'rgba(255,255,255,.2)':'rgba(0,0,0,.2)'}`,paddingTop:'10px'}}>
+                      {card.bullets.map(b=>(<li key={b} style={liStyle}><span style={{flexShrink:0,marginTop:'2px'}}>➔</span>{b}</li>))}
+                    </ul>
+                    <div style={{marginTop:'12px',paddingTop:'10px',borderTop:`2px solid ${card.text==='#fff'?'rgba(255,255,255,.2)':'rgba(0,0,0,.2)'}`}}>
+                      <div style={{fontSize:'10px',fontWeight:700,textTransform:'uppercase',letterSpacing:'.16em',opacity:.5,marginBottom:'4px'}}>Key Skills</div>
+                      <div style={{fontSize:'11px',fontWeight:600,opacity:.7,lineHeight:1.7}}>{card.skills}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div style={{width:'40px',flexShrink:0}}/>
+            </div>
+            <div id="exp-dots" style={{display:'flex',gap:'8px',marginTop:'12px',justifyContent:'center'}}>
+              {[0,1,2].map(i=>(<div key={i} className="exp-dot" style={{width:i===0?'28px':'8px',height:'8px',background:i===0?'#111':'rgba(0,0,0,.2)',borderRadius:'4px',transition:'all .3s ease',cursor:'pointer'}} onClick={()=>{const sc=document.getElementById('exp-scroll');const cards=sc.querySelectorAll('.exp-card');if(cards[i])cards[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});}}/>))}
+            </div>
+          </div>
+        </section>
+
+        {/* INSIGHTS */}
+        <section id="insights" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-24">
+          <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-between',alignItems:'flex-end',gap:'10px',marginBottom:'12px'}}>
+            <div>
+              <div className="sec-lbl reveal">Field Notes · 14 Articles</div>
+              <h2 className="font-black tracking-tighter uppercase inline-block border-b-[4px] border-black pb-2 reveal" style={{fontSize:'clamp(32px,8vw,72px)'}}>Insights</h2>
+            </div>
+            <a href="articles/index.html" className="reveal font-black text-xs uppercase tracking-widest px-4 py-2.5 border-[3px] border-black bg-[#FACC15] shadow-[4px_4px_0px_#000] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#000] transition-all flex-shrink-0" style={{borderRadius:'4px',textDecoration:'none',color:'#000'}}>All Articles →</a>
+          </div>
+          <div className="flex flex-col rounded-[4px] overflow-hidden border-[4px] border-black shadow-[8px_8px_0px_#000]">
+            {insights.map((ins,i)=>(
+              <a key={ins.title} href={ins.url} className={`insight-row reveal d${Math.min(i%4+1,4)} flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3.5 md:p-5`} style={{background:i%2===0?'#F5F3EE':'#fff',borderBottom:i<insights.length-1?'3px solid #000':'none',textDecoration:'none',color:'inherit'}}>
+                <div style={{display:'flex',alignItems:'flex-start',gap:'8px',flex:1,minWidth:0}}>
+                  <span style={{flexShrink:0,fontWeight:800,fontSize:'10px',textTransform:'uppercase',letterSpacing:'.1em',padding:'3px 7px',borderRadius:'3px',background:ins.tagColor,color:ins.tagColor==='#FACC15'?'#000':'#fff',border:'2px solid #000',marginTop:'2px'}}>{ins.tag}</span>
+                  <span className="font-black text-sm leading-tight">{ins.title}</span>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:'8px',flexShrink:0}}>
+                  <span className="font-black text-xs uppercase tracking-widest px-2 py-1 bg-black text-white" style={{whiteSpace:'nowrap',borderRadius:'3px'}}>{ins.stat}</span>
+                  <span style={{fontWeight:900,fontSize:'14px'}}>→</span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div style={{display:'flex',justifyContent:'center',marginTop:'14px'}}>
+            <a href="articles/index.html" style={{textDecoration:'none',color:'#111',fontWeight:700,fontSize:'11px',textTransform:'uppercase',letterSpacing:'.15em',opacity:.5,display:'flex',alignItems:'center',gap:'6px'}}>View all 14 articles &amp; case studies →</a>
+          </div>
+        </section>
+
+        {/* CERTS */}
+        <section id="certs" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+          <div className="reveal w-full h-[3px] bg-black mb-6"></div>
+          <div className="sec-lbl reveal">Credentials</div>
+          <h2 className="text-2xl md:text-3xl font-black tracking-tighter uppercase mb-5 reveal">Certifications & Stack</h2>
+          <div className="reveal flex flex-wrap gap-3">
+            {certs.map((c,i)=>(
+              <a key={c.name} href={c.url} target="_blank" className="cert-badge bg-white px-4 md:px-5 py-2.5 border-[3px] border-black rounded-md font-bold uppercase tracking-tight shadow-[4px_4px_0px_#000] flex items-center gap-2.5 text-sm" style={{transitionDelay:`${i*0.06}s`,textDecoration:'none',color:'inherit'}}>
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{background:c.color,animation:`pdot 2s ease infinite`,animationDelay:`${i*0.35}s`}}/>
+                {c.name}
+                <span style={{fontSize:'10px',opacity:.5}}>↗</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* WHY ME */}
+        <section id="whyme" style={{position:'relative'}}>
+          <div id="parallax-track" style={{position:'relative'}}>
+            <div className="hidden md:block" style={{position:'sticky',top:'72px',zIndex:5,pointerEvents:'none',paddingLeft:'clamp(24px,5vw,80px)',paddingTop:'28px'}}>
+              <div className="sec-lbl" style={{color:'rgba(255,255,255,.5)',mixBlendMode:'difference'}}>Differentiators</div>
+            </div>
+            {[{bg:'#FACC15',textColor:'#111',num:'01',zi:1,title:'Founder-Level\nThinking.',desc:"I don't just look at platform metrics. I look at your margins, supply chain logic, and bottom-line profit. If spending more doesn't make business sense, we don't scale it.",pills:['P&L Awareness','Margin-First Scaling','Business Sense > Vanity Metrics'],pillBg:'#111',pillText:'#fff',pillBorder:'#000'},{bg:'#1D4ED8',textColor:'#fff',num:'02',zi:2,title:'Testing\nAt Scale.',desc:'Opinion is irrelevant; data dictates direction. I run high-velocity creative and audience tests to find winners fast — and kill losers even faster before they drain budget.',pills:['High-Velocity Testing','Creative Iterations','Data-Driven Kill Switches'],pillBg:'rgba(255,255,255,.15)',pillText:'#fff',pillBorder:'rgba(255,255,255,.3)'},{bg:'#EF4444',textColor:'#fff',num:'03',zi:3,title:'Revenue\nObsessed.',desc:'Clicks and impressions are vanity. Revenue is sanity. Every report I produce is built around qualified pipeline, purchases, and maximizing LTV — not CTR.',pills:['Pipeline & Purchases First','LTV Maximization','No Vanity Metrics'],pillBg:'rgba(255,255,255,.15)',pillText:'#fff',pillBorder:'rgba(255,255,255,.3)'}].map((panel,i)=>(
+              <div key={panel.num} className="parallax-panel" data-panel={i} style={{position:'sticky',top:'var(--nav-h,96px)',minHeight:'100vh',background:panel.bg,color:panel.textColor,border:'4px solid #000',zIndex:panel.zi,overflow:'hidden',display:'flex',alignItems:'center',padding:'clamp(40px,8vw,100px) clamp(20px,5vw,80px)',transition:'transform .1s linear'}}>
+                <div style={{position:'absolute',right:'-20px',bottom:'-40px',fontSize:'clamp(100px,18vw,260px)',fontWeight:900,lineHeight:1,opacity:.07,fontFamily:"'Space Grotesk',sans-serif",pointerEvents:'none',userSelect:'none',color:panel.textColor}}>{panel.num}</div>
+                <div style={{position:'absolute',top:0,left:'clamp(20px,5vw,80px)',width:'3px',height:'100%',background:panel.textColor==='#fff'?'rgba(255,255,255,.1)':'rgba(0,0,0,.1)'}}/>
+                <div style={{maxWidth:'640px',position:'relative',zIndex:2}}>
+                  <div className="font-black text-xs uppercase tracking-widest mb-3" style={{opacity:.4}}>{panel.num} / Differentiator</div>
+                  <h2 className="font-black uppercase tracking-tighter leading-none mb-5" style={{fontSize:'clamp(36px,8vw,96px)',lineHeight:.9,color:panel.textColor,textShadow:panel.textColor==='#fff'?'4px 4px 0 rgba(0,0,0,.2)':'none'}}>
+                    {panel.title.split('\n').map((l,i)=><React.Fragment key={i}>{l}{i===0&&<br/>}</React.Fragment>)}
+                  </h2>
+                  <p className="font-medium leading-relaxed mb-6" style={{fontSize:'clamp(14px,2vw,20px)',color:panel.textColor==='#fff'?'rgba(255,255,255,.85)':'#333',maxWidth:'500px'}}>{panel.desc}</p>
+                  <div style={{display:'flex',flexWrap:'wrap',gap:'8px'}}>
+                    {panel.pills.map(t=>(<span key={t} style={{background:panel.pillBg,color:panel.pillText,border:`2px solid ${panel.pillBorder}`,padding:'5px 12px',fontSize:'11px',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',borderRadius:'3px'}}>{t}</span>))}
+                  </div>
+                </div>
+                <div className="panel-shimmer" style={{position:'absolute',inset:0,background:'radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.12) 0%, transparent 60%)',opacity:0,transition:'opacity .3s ease',pointerEvents:'none',zIndex:3}}/>
+              </div>
+            ))}
+            {/* CTA */}
+            <div id="contact" style={{position:'sticky',top:'var(--nav-h,96px)',minHeight:'100vh',background:'#FACC15',border:'4px solid #000',borderTop:'5px solid #000',zIndex:4,overflow:'hidden',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'clamp(48px,8vw,120px) 16px',textAlign:'center'}}>
+              <div style={{position:'absolute',inset:0,pointerEvents:'none',background:'radial-gradient(circle at center, #0F0F0F 1px, transparent 1px)',backgroundSize:'22px 22px',opacity:.1}}/>
+              <div style={{position:'absolute',top:'24px',right:'32px',width:'60px',height:'60px',border:'4px solid #000',borderRadius:'50%',opacity:.12,animation:'spin 20s linear infinite'}}/>
+              <div className="reveal relative z-10 max-w-4xl w-full mx-auto flex flex-col items-center">
+                <h2 className="font-black uppercase tracking-tighter leading-[0.85] mb-5 drop-shadow-[4px_4px_0px_#fff]" style={{fontSize:'clamp(36px,10vw,96px)'}}>Ready To Scale?</h2>
+                <p className="font-bold uppercase tracking-wide mb-7 border-b-[3px] border-black pb-2 inline-block" style={{fontSize:'clamp(13px,3vw,24px)'}}>Let's build your growth engine.</p>
+                <div className="flex flex-wrap justify-center gap-3 mb-6">
+                  <div className="flex items-center gap-2 bg-white border-[3px] border-black px-3 py-2 rounded-[4px] shadow-[3px_3px_0px_#000]"><span style={{fontSize:'16px'}}>🔍</span><div style={{textAlign:'left'}}><div className="font-black text-xs uppercase tracking-widest text-black">Free Account Audit</div><div className="font-medium text-xs text-gray-500">We'll find what's leaking revenue</div></div></div>
+                  <div className="flex items-center gap-2 bg-white border-[3px] border-black px-3 py-2 rounded-[4px] shadow-[3px_3px_0px_#000]"><span style={{fontSize:'16px'}}>⚡</span><div style={{textAlign:'left'}}><div className="font-black text-xs uppercase tracking-widest text-black">7-Day Trial Sprint</div><div className="font-medium text-xs text-gray-500">Results before you commit</div></div></div>
+                </div>
+                <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mb-5 w-full">
+                  <a href="https://calendly.com/helstandsouza/30min" target="_blank" className="btn-pulse bg-black text-white font-black uppercase tracking-widest border-[4px] border-black rounded-md shadow-[6px_6px_0px_rgba(0,0,0,.25)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[10px_10px_0px_rgba(0,0,0,.25)] active:translate-x-1.5 active:translate-y-1.5 active:shadow-none transition-all inline-flex items-center justify-center gap-2" style={{padding:'clamp(13px,3vw,22px) clamp(18px,4vw,44px)',fontSize:'clamp(13px,2.5vw,20px)'}}>Book A Strategy Call <ArrowUpRight size={18} sw={3}/></a>
+                  <a href="https://api.whatsapp.com/send?phone=919594729658" target="_blank" className="bg-[#10B981] text-white font-black uppercase tracking-widest border-[4px] border-black rounded-md shadow-[6px_6px_0px_rgba(0,0,0,.2)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[10px_10px_0px_rgba(0,0,0,.2)] active:translate-x-1.5 active:translate-y-1.5 active:shadow-none transition-all inline-flex items-center justify-center gap-2" style={{padding:'clamp(13px,3vw,22px) clamp(18px,4vw,40px)',fontSize:'clamp(13px,2.5vw,20px)'}}>
+                    <svg width="20"height="20"viewBox="0 0 24 24"fill="white"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Start Scaling
+                  </a>
+                </div>
+                <p className="font-bold text-xs uppercase tracking-widest opacity-40">Free audit · 7-day trial · No commitment needed</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer style={{background:'#F5F3EE',borderTop:'4px solid #000',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:0,backgroundImage:'linear-gradient(to right,rgba(0,0,0,.07) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,.07) 1px,transparent 1px)',backgroundSize:'48px 48px'}}/>
+        <div style={{position:'absolute',top:'-40px',right:'-50px',width:'160px',height:'160px',border:'6px solid #000',borderRadius:'50%',opacity:.05,pointerEvents:'none',zIndex:1,animation:'fSpin 28s linear infinite'}}/>
+        <div style={{position:'absolute',top:'44px',left:'16%',width:'16px',height:'16px',background:'#FACC15',border:'3px solid #000',borderRadius:'50%',pointerEvents:'none',zIndex:1,animation:'fFloat 4s ease-in-out infinite'}}/>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-16 relative" style={{zIndex:2}}>
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+            {/* Left: Profile card */}
+            <div style={{display:'flex',flexDirection:'column',gap:'16px'}}>
+              <div style={{position:'relative',width:'100%',maxWidth:'220px'}}>
+                <div style={{position:'absolute',top:'-18px',right:'-18px',zIndex:4,animation:'fSpin 8s linear infinite'}}>
+                  <svg width="34"height="34"viewBox="0 0 42 42"fill="none">{[0,30,60,90,120,150].map(a=>(<line key={a} x1="21"y1="3"x2="21"y2="39"stroke="#000"strokeWidth="2.2"strokeLinecap="round"transform={`rotate(${a} 21 21)`}/>))}</svg>
+                </div>
+                <div style={{position:'absolute',top:'40px',right:'-34px',zIndex:4,background:'#FACC15',border:'3px solid #000',borderRadius:'4px',padding:'4px 8px',boxShadow:'3px 3px 0 #000',animation:'fFloat 4s ease-in-out infinite 0.6s',transform:'rotate(-3deg)'}}>
+                  <span style={{fontWeight:900,fontSize:'10px',color:'#000',textTransform:'uppercase',letterSpacing:'.1em',whiteSpace:'nowrap'}}>2–5x ROAS</span>
+                </div>
+                <div style={{position:'absolute',bottom:'60px',right:'-32px',zIndex:4,background:'#10B981',border:'3px solid #000',borderRadius:'4px',padding:'4px 8px',boxShadow:'3px 3px 0 #000',animation:'fFloat 5s ease-in-out infinite 1s',transform:'rotate(2deg)'}}>
+                  <span style={{fontWeight:900,fontSize:'10px',color:'#fff',textTransform:'uppercase',letterSpacing:'.1em',whiteSpace:'nowrap'}}>₹Crores Managed</span>
+                </div>
+                <div style={{background:'#FACC15',border:'4px solid #000',borderRadius:'100px 100px 8px 8px',boxShadow:'8px 8px 0 #000',overflow:'hidden'}}>
+                  <div style={{width:'100%',height:'260px',position:'relative',overflow:'hidden',background:'#ccc'}}>
+                    <img src="" alt="Helston D'Souza" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'top center',filter:'grayscale(15%) contrast(1.05)'}}/>
+                  </div>
+                  <div style={{background:'#1D4ED8',padding:'11px 16px',borderTop:'4px solid #000',textAlign:'center'}}>
+                    <div style={{fontWeight:900,fontSize:'16px',color:'#fff',textTransform:'uppercase',letterSpacing:'.04em'}}>Helston D'Souza</div>
+                    <div style={{fontWeight:700,fontSize:'10px',color:'rgba(255,255,255,.65)',textTransform:'uppercase',letterSpacing:'.14em',marginTop:'3px'}}>Performance Marketer</div>
+                  </div>
+                </div>
+              </div>
+              <div className="sec-lbl">Let's connect</div>
+            </div>
+            {/* Right */}
+            <div style={{display:'flex',flexDirection:'column',gap:'16px',paddingTop:'4px'}}>
+              <h2 className="font-black uppercase tracking-tighter" style={{fontSize:'clamp(28px,6vw,66px)',lineHeight:.92,color:'#111'}}>Making Bold<br/>Ideas Happen.</h2>
+              <p className="font-medium text-sm leading-relaxed text-gray-600" style={{maxWidth:'380px'}}>Performance marketer partnering with D2C & B2B brands to craft campaigns that actually drive revenue — not just impressions.</p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:'8px'}}>
+                {[['Work','#proof'],['Process','#process'],['Insights','#contact'],['Contact','#contact']].map(([label,href])=>(
+                  <a key={label} href={href} className="font-bold text-xs uppercase tracking-widest px-3 py-2 bg-white border-[3px] border-black rounded-[4px] shadow-[3px_3px_0px_#000] hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_#000] transition-all">{label}</a>
+                ))}
+              </div>
+              <div style={{width:'100%',height:'3px',background:'rgba(0,0,0,.1)',borderRadius:'2px'}}/>
+              <div style={{display:'flex',flexWrap:'wrap',gap:'8px'}}>
+                {[{label:'LinkedIn',bg:'#1D4ED8',text:'#fff',href:'https://www.linkedin.com/in/helstondsouza/'},{label:'WhatsApp',bg:'#10B981',text:'#fff',href:'https://api.whatsapp.com/send?phone=919594729658'},{label:'Email Me',bg:'#FACC15',text:'#000',href:'mailto:helstandsouza@gmail.com'}].map(s=>(
+                  <a key={s.label} href={s.href} target="_blank" className="font-black text-xs uppercase tracking-widest px-4 py-2.5 border-[3px] border-black rounded-[4px] shadow-[4px_4px_0px_#000] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#000] active:translate-y-1 active:shadow-none transition-all flex items-center gap-2" style={{background:s.bg,color:s.text}}>{s.label}</a>
+                ))}
+              </div>
+              <p className="font-bold text-xs uppercase tracking-widest" style={{color:'#bbb'}}>Numbers &gt; Noise &nbsp;·&nbsp; Mumbai, IN</p>
+            </div>
+          </div>
+        </div>
+        <div className="mq-outer border-t-[4px] border-black py-3" style={{background:'#111'}}>
+          <div className="mq-track" style={{animationDuration:'18s'}}>
+            {[...Array(2)].flatMap((_,si)=>['Available for New Projects','Performance Marketing','Meta & Google Ads','D2C & B2B Growth','Revenue First'].map((item,i)=>(
+              <div key={`${si}-${i}`} className="mq-item text-white">
+                <svg width="12"height="12"viewBox="0 0 14 14"fill="none"style={{flexShrink:0}}><path d="M7 0.5 L7.9 6.1 L13.5 7 L7.9 7.9 L7 13.5 L6.1 7.9 L0.5 7 L6.1 6.1 Z"fill="#EF4444"stroke="#000"strokeWidth=".8"/></svg>
+                {item}
+              </div>
+            )))}
+          </div>
+        </div>
+        <div className="bg-black text-white px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-2" style={{borderTop:'3px solid #222'}}>
+          <p className="font-bold uppercase tracking-widest text-xs text-center sm:text-left">© {new Date().getFullYear()} Helston D'Souza &nbsp;·&nbsp; Numbers {'>'} Noise</p>
+          <p className="text-xs text-gray-600 uppercase tracking-wider font-bold text-center sm:text-right">Performance Marketing · Mumbai, India</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Portfolio/>);
+</script>
+<script>
+const cur=document.getElementById('cursor');
+if(window.matchMedia('(hover:hover)and(pointer:fine)').matches){
+  document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.hover-lift,.cert-badge,.insight-row,.funnel-card'))cur.classList.add('big');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.hover-lift,.cert-badge,.insight-row,.funnel-card'))cur.classList.remove('big');});
+}
+(function(){
+  const el=document.getElementById('exp-scroll');
+  if(!el)return;
+  let isDown=false,startX,scrollLeft;
+  el.addEventListener('mousedown',e=>{isDown=true;el.style.cursor='grabbing';startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;});
+  el.addEventListener('mouseleave',()=>{isDown=false;el.style.cursor='grab';});
+  el.addEventListener('mouseup',()=>{isDown=false;el.style.cursor='grab';});
+  el.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();el.scrollLeft=scrollLeft-(e.pageX-el.offsetLeft-startX)*1.4;});
+  el.addEventListener('scroll',()=>{
+    const dots=document.querySelectorAll('.exp-dot');
+    const cards=el.querySelectorAll('.exp-card');
+    let closest=0,minDiff=Infinity;
+    cards.forEach((c,i)=>{const diff=Math.abs(c.getBoundingClientRect().left-el.getBoundingClientRect().left);if(diff<minDiff){minDiff=diff;closest=i;}});
+    dots.forEach((d,i)=>{d.style.width=i===closest?'28px':'8px';d.style.background=i===closest?'#111':'rgba(0,0,0,.2)';});
+  },{passive:true});
+})();
+if(window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.parallax-panel').forEach(panel=>{
+    const shimmer=panel.querySelector('.panel-shimmer');
+    if(!shimmer)return;
+    panel.addEventListener('mousemove',e=>{
+      const rect=panel.getBoundingClientRect();
+      shimmer.style.setProperty('--mx',((e.clientX-rect.left)/rect.width*100).toFixed(1)+'%');
+      shimmer.style.setProperty('--my',((e.clientY-rect.top)/rect.height*100).toFixed(1)+'%');
+    });
+  });
+}
+function applyMobileLayout(){
+  const isMobile=window.innerWidth<768;
+  document.querySelectorAll('.parallax-panel,#contact').forEach(el=>{
+    if(isMobile){el.style.position='relative';el.style.top='auto';el.style.minHeight='auto';el.style.padding='56px 20px';}
+    else{el.style.position='sticky';el.style.top='var(--nav-h,96px)';el.style.minHeight='100vh';el.style.padding='';}
+  });
+}
+applyMobileLayout();
+window.addEventListener('resize',applyMobileLayout);
+const pg=document.getElementById('scroll-bar');
+const navBar=document.getElementById('nav-bar');
+window.addEventListener('scroll',()=>{
+  if(pg)pg.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+  if(navBar){if(window.scrollY>60){navBar.style.background='rgba(245,243,238,.92)';navBar.style.backdropFilter='blur(14px)';}else{navBar.style.background='#F5F3EE';navBar.style.backdropFilter='';}}
+},{passive:true});
+</script>
+</body>
+</html>
